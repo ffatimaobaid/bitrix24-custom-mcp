@@ -1,0 +1,19 @@
+# render.yaml — Deploy to Render.com (free tier, always-on with paid plan)
+services:
+  - type: web
+    name: bitrix24-catalog-mcp
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter          # upgrade to "standard" for always-on
+    healthCheckPath: /health
+    envVars:
+      - key: BITRIX_WEBHOOK_URL
+        sync: false        # set in Render dashboard, never committed
+      - key: MCP_SECRET_PATH
+        sync: false
+      - key: PORT
+        value: 8000
+      - key: ENABLE_WRITES
+        value: "false"     # set to "true" to activate write tools
+      - key: BITRIX_WRITE_WEBHOOK_URL
+        sync: false        # write-capable webhook secret; set in Render dashboard
